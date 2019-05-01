@@ -2,7 +2,9 @@
 
 ## Overview
 
-- Experimentation loading code on the fly, plugin with DotNetCore 2.x
+Experimentation 
+- Loading code on the fly from miscellaneous sources with DotNetCore 2.x
+- Execute plug in 
 
 ## Plug In Interface
 
