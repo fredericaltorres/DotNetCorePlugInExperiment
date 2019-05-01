@@ -35,8 +35,8 @@ namespace PlugInManagerLib
         {
             try
             {
-                if (this._assembly == null)
-                    this._assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(assemblyFileName);
+                var assemblyBinary = File.ReadAllBytes(assemblyFileName);
+                this.LoadAssembly(assemblyBinary);
             }
             catch (System.Exception ex)
             {
