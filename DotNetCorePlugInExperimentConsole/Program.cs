@@ -16,12 +16,28 @@ namespace DotNetCoreConsoleTestAutoInstaller
 
             // Load assembly from the file system
             var assemblyFileName = @"C:\DVT\.NET\DotNetCorePlugInExperiment\FredCoreLib\bin\Debug\netcoreapp2.1\FredCoreLib.dll";
-            var myPlugIn = new PlugInManager(assemblyFileName, "FredCoreLib.FredPlugIn").Load();
+
+            // Passing a type that does not exist
+            var myNonExistantPlugIn = new PlugInManager(assemblyFileName, "FredCoreLib.FredBADPlugIn");
+            if (myNonExistantPlugIn.Load()) throw new NotImplementedException();
+
+            // Loading a C# type that is not a plug in
+            var myNonPlugIn = new PlugInManager(assemblyFileName, "FredCoreLib.FredNonPlugIn");
+            if (myNonPlugIn.Load()) throw new NotImplementedException();
+            var valid = myNonPlugIn.IsValidPlugIn;
+
+            var myPlugIn = new PlugInManager(assemblyFileName, "FredCoreLib.FredPlugIn");
+            if (!myPlugIn.Load()) throw new NotImplementedException();
+            valid = myPlugIn.IsValidPlugIn;
+            foreach (var typeFound in myPlugIn.GetTypes())
+                Console.WriteLine($"Type Found :{typeFound}");
+
             Console.WriteLine($"Execute PlugIn Instance :{myPlugIn.Instance.Run("myParam1")}");
 
             // Load assembly as binary
             byte[] assemblyBinary = File.ReadAllBytes(assemblyFileName);
-            var myPlugIn2 = new PlugInManager(assemblyBinary, "FredCoreLib.FredPlugIn").Load();
+            var myPlugIn2 = new PlugInManager(assemblyBinary, "FredCoreLib.FredPlugIn");
+            if (!myPlugIn2.Load()) throw new NotImplementedException();
             Console.WriteLine($"Execute PlugIn Instance :{myPlugIn2.Instance.Run("myParam1")}");
 
             Console.ReadKey();
