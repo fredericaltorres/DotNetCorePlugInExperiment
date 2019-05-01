@@ -18,12 +18,25 @@ namespace PlugInManagerLib
             LoadAssembly(assemblyFileName);
             this._plugInFQN = plugInFQN;
         }
+        public PlugInManager(byte [] assemblyBinary, string plugInFQN)
+        {
+            LoadAssembly(assemblyBinary);
+            this._plugInFQN = plugInFQN;
+        }
+
+        private void LoadAssembly(byte [] buffer)
+        {
+            MemoryStream stream = new MemoryStream(buffer);
+            if(this._assembly == null)
+                this._assembly = AssemblyLoadContext.Default.LoadFromStream(stream);
+        }
 
         private void LoadAssembly(string assemblyFileName)
         {
             try
             {
-                this._assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(assemblyFileName);
+                if (this._assembly == null)
+                    this._assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(assemblyFileName);
             }
             catch (System.Exception ex)
             {
@@ -42,7 +55,8 @@ namespace PlugInManagerLib
         {
             try
             {
-                this._plugIn = Activator.CreateInstance(this._plugInType) as IPlugIn;
+                if(this._plugIn == null)
+                    this._plugIn = Activator.CreateInstance(this._plugInType) as IPlugIn;
             }
             catch (System.Exception ex)
             {
@@ -55,7 +69,8 @@ namespace PlugInManagerLib
 
             try
             {
-                this._plugInType = this._assembly.GetType(this._plugInFQN);
+                if(this._plugInType == null)
+                    this._plugInType = this._assembly.GetType(this._plugInFQN);
             }
             catch (System.Exception ex)
             {
