@@ -16,7 +16,9 @@ namespace PlugInManagerLibUnitTests
         [Fact]
         public void CannotLoadNonExistentAssemblyName()
         {
-            Assert.Throws<PlugInManagerException>(() => new PlugInManager(@".\FredCoreLib.BAD.dll", null));
+            Assert.Throws<PlugInManagerException>(() => 
+                new PlugInManager(@".\FredCoreLib.BAD.dll", null
+            ));
         }
 
         [Fact]
@@ -27,7 +29,7 @@ namespace PlugInManagerLibUnitTests
         }
 
         [Fact]
-        public void CannotInvokeComponentThatDoesNotImplementIPlugIn()
+        public void CannotInvokeComponent_ThatDoesNotImplementIPlugIn()
         {
             var plugIn = new PlugInManager(assemblyFileName, "FredCoreLib.FredNonPlugIn");
             plugIn.Load();
@@ -35,7 +37,7 @@ namespace PlugInManagerLibUnitTests
         }
 
         [Fact]
-        public void LoadAssemblyAsFileNameAndInvokePlugIn()
+        public void LoadAssemblyAsFileName_And_InvokePlugIn()
         {
             var plugIn = new PlugInManager(assemblyFileName, "FredCoreLib.FredPlugIn");
             Assert.True(plugIn.Load());
@@ -44,12 +46,21 @@ namespace PlugInManagerLibUnitTests
         }
 
         [Fact]
-        public void LoadAssemblyAsByteArrayAndInvokePlugIn()
+        public void LoadAssemblyAsByteArray_And_InvokePlugIn()
         {
             var plugIn = new PlugInManager(File.ReadAllBytes(assemblyFileName), "FredCoreLib.FredPlugIn");
             Assert.True(plugIn.Load());
             Assert.True(plugIn.IsValidPlugIn);
             Assert.True(plugIn.Instance.Run("param"));
+        }
+
+        [Fact]
+        public void LoadAssemblyAsFileNameAndInvokePlugIn_WithoutLoadingPlugInFirst_ShouldThrowException()
+        {
+            var plugIn = new PlugInManager(assemblyFileName, "FredCoreLib.FredPlugIn");
+            Assert.Throws<PlugInManagerException>(() =>
+                plugIn.Instance.Run("param")
+            );
         }
     }
 }

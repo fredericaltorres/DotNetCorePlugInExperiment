@@ -75,7 +75,10 @@ namespace PlugInManagerLib
 
         private void CreateInstance()
         {
-            if(!this.IsValidPlugIn)
+            if (this._plugInType == null)
+                throw new PlugInManagerException($"Class {this._plugInFQN} is not loaded");
+
+            if (!this.IsValidPlugIn)
                 throw new PlugInManagerException($"Class {this._plugInFQN} does not implement the IPlugIn interface");
 
             try
