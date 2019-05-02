@@ -31,11 +31,22 @@ namespace PlugInManagerLibUnitTests
         }
 
         [Fact]
-        public void CannotInvokeComponent_ThatDoesNotImplementIPlugIn()
+        public void Check_IsValidPlugIn_OnComponentThatDoesNotImplementIPlugIn()
         {
             var plugIn = new PlugInManager(assemblyFileName, "FredCoreLib.FredNonPlugIn");
             plugIn.Load();
             Assert.False(plugIn.IsValidPlugIn);
+        }
+
+        [Fact]
+        public void CannotInvokeComponent_ThatDoesNotImplementIPlugIn()
+        {
+            var plugIn = new PlugInManager(assemblyFileName, "FredCoreLib.FredNonPlugIn");
+            plugIn.Load();
+            
+            Assert.Throws<PlugInManagerException>(() =>
+               Assert.True(plugIn.Instance.Run("param"))
+           );
         }
 
         [Fact]
