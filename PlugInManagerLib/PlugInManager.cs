@@ -29,7 +29,7 @@ namespace PlugInManagerLib
 
         private void LoadAssembly(byte [] buffer)
         {
-            // is it possible to unload an Assembly loaded dynamically in dotnet core?
+            // Is it possible to unload an Assembly loaded dynamically in dotnet core?
             // https://stackoverflow.com/questions/43106917/is-it-possible-to-unload-an-assembly-loaded-dynamically-in-dotnet-core
 
             MemoryStream stream = new MemoryStream(buffer);
@@ -54,8 +54,7 @@ namespace PlugInManagerLib
         {
             try
             {
-                this.LoadType();
-                this.CreateInstance();
+                this.LoadType();                
                 return true;
             }
             catch
@@ -115,6 +114,7 @@ namespace PlugInManagerLib
         {
             get
             {
+                this.CreateInstance();
                 if (this._plugIn == null)
                     throw new PlugInManagerException($"PlugIn not loaded");
                 return this._plugIn;
