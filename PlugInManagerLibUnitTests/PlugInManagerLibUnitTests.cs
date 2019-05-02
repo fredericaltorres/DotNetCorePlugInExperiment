@@ -7,6 +7,8 @@ namespace PlugInManagerLibUnitTests
 {
     public class PlugInManagerLibUnitTests
     {
+        private const string GoodPlugInFQN = "FredCoreLib.FredPlugIn";
+
         string assemblyFileName { 
             get {
                 return @".\FredCoreLib.dll";
@@ -17,8 +19,8 @@ namespace PlugInManagerLibUnitTests
         public void CannotLoadNonExistentAssemblyName()
         {
             Assert.Throws<PlugInManagerException>(() => 
-                new PlugInManager(@".\FredCoreLib.BAD.dll", null
-            ));
+                new PlugInManager(@".\FredCoreLib.BAD.dll", null)
+            );
         }
 
         [Fact]
@@ -39,7 +41,7 @@ namespace PlugInManagerLibUnitTests
         [Fact]
         public void LoadAssemblyAsFileName_And_InvokePlugIn()
         {
-            var plugIn = new PlugInManager(assemblyFileName, "FredCoreLib.FredPlugIn");
+            var plugIn = new PlugInManager(assemblyFileName, GoodPlugInFQN);
             Assert.True(plugIn.Load());
             Assert.True(plugIn.IsValidPlugIn);
             Assert.True(plugIn.Instance.Run("param"));
@@ -48,7 +50,7 @@ namespace PlugInManagerLibUnitTests
         [Fact]
         public void LoadAssemblyAsByteArray_And_InvokePlugIn()
         {
-            var plugIn = new PlugInManager(File.ReadAllBytes(assemblyFileName), "FredCoreLib.FredPlugIn");
+            var plugIn = new PlugInManager(File.ReadAllBytes(assemblyFileName), GoodPlugInFQN);
             Assert.True(plugIn.Load());
             Assert.True(plugIn.IsValidPlugIn);
             Assert.True(plugIn.Instance.Run("param"));
@@ -57,7 +59,7 @@ namespace PlugInManagerLibUnitTests
         [Fact]
         public void LoadAssemblyAsFileNameAndInvokePlugIn_WithoutLoadingPlugInFirst_ShouldThrowException()
         {
-            var plugIn = new PlugInManager(assemblyFileName, "FredCoreLib.FredPlugIn");
+            var plugIn = new PlugInManager(assemblyFileName, GoodPlugInFQN);
             Assert.Throws<PlugInManagerException>(() =>
                 plugIn.Instance.Run("param")
             );

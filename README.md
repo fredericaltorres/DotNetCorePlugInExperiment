@@ -31,6 +31,6 @@ Console.WriteLine($"Execute PlugIn Instance :{myPlugIn.Instance.Run("myParam1")}
 // Load assembly as binary
 byte[] assemblyBinary = File.ReadAllBytes(assemblyFileName);
 var myPlugIn2 = new PlugInManager(assemblyBinary, "FredCoreLib.FredPlugIn").Load();
-myPlugIn.Load();
+myPlugIn2.Load();
 Console.WriteLine($"Execute PlugIn Instance :{myPlugIn2.Instance.Run("myParam1")}");
 ```
