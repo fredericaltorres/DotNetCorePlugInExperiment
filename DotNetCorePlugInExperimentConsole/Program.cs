@@ -12,23 +12,15 @@ namespace DotNetCoreConsoleTestAutoInstaller
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("START!");
+            Console.WriteLine("DotNetCorePlugInExperimentConsole");
 
             // Load assembly from the file system
             var assemblyFileName = @"C:\DVT\.NET\DotNetCorePlugInExperiment\FredCoreLib\bin\Debug\netcoreapp2.1\FredCoreLib.dll";
 
-            // Passing a type that does not exist
-            var myNonExistantPlugIn = new PlugInManager(assemblyFileName, "FredCoreLib.FredBADPlugIn");
-            if (myNonExistantPlugIn.Load()) throw new NotImplementedException();
-
-            // Loading a C# type that is not a plug in
-            var myNonPlugIn = new PlugInManager(assemblyFileName, "FredCoreLib.FredNonPlugIn");
-            if (myNonPlugIn.Load()) throw new NotImplementedException();
-            var valid = myNonPlugIn.IsValidPlugIn;
-
             var myPlugIn = new PlugInManager(assemblyFileName, "FredCoreLib.FredPlugIn");
             if (!myPlugIn.Load()) throw new NotImplementedException();
-            valid = myPlugIn.IsValidPlugIn;
+
+            var valid = myPlugIn.IsValidPlugIn;
             foreach (var typeFound in myPlugIn.GetTypes())
                 Console.WriteLine($"Type Found :{typeFound}");
 
