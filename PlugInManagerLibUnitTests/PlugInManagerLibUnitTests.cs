@@ -43,7 +43,6 @@ namespace PlugInManagerLibUnitTests
         {
             var plugIn = new PlugInManager(assemblyFileName, "FredCoreLib.FredNonPlugIn");
             plugIn.Load();
-            
             Assert.Throws<PlugInManagerException>(() =>
                Assert.True(plugIn.Instance.Run("param"))
            );
@@ -68,7 +67,7 @@ namespace PlugInManagerLibUnitTests
         }
 
         [Fact]
-        public void LoadAssemblyAsFileNameAndInvokePlugIn_WithoutLoadingPlugInFirst_ShouldThrowException()
+        public void LoadAssemblyAsFileName_InvokePlugIn_WithoutLoadingPlugInFirst_ShouldThrowException()
         {
             var plugIn = new PlugInManager(assemblyFileName, GoodPlugInFQN);
             Assert.Throws<PlugInManagerException>(() =>
