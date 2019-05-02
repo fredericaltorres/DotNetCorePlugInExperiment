@@ -2,6 +2,9 @@
 
 namespace FredCoreLib
 {
+    /// <summary>
+    /// Just a class that does NOT implementof the interface IPlugIn
+    /// </summary>
     public class FredNonPlugIn 
     {
         public bool Run(string param)
